@@ -1,70 +1,135 @@
-# Getting Started with Create React App
+# SBI Saathi
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Agentic AI Platform for Rural Customer Acquisition & Lifecycle Engagement**
 
-## Available Scripts
+Built for SBI Hackathon 2026 — Theme: Agentic AI & Emerging Tech | Problem Statement: Customer Acquisition
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## The Problem
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+India has 190 million unbanked adults. SBI's branch-assisted onboarding costs ₹800–1200 per customer and requires physical presence, English literacy, and smartphone proficiency — three barriers that exclude exactly the people SBI most needs to reach.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## The Solution
 
-### `npm test`
+SBI Saathi is a full-lifecycle agentic AI platform built on WhatsApp and web that removes all three barriers.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+A rural user sends **"Hi"** on WhatsApp → Saathi greets them in Hindi or their regional language → collects their details conversationally (no forms, no jargon) → performs AI-assisted KYC via a secure one-time Aadhaar upload link → recommends the right SBI product (Jan Dhan, Kisan Credit, Mudra Loan, Student Account) → completes onboarding in under 10 minutes, entirely without a branch visit.
 
-### `npm run build`
+**Built-in safety nets:**
+- Drop off mid-onboarding? Automatic follow-up after 24 hours.
+- Confused? One tap connects to the nearest Bank Mitra (BC agent) with full session context.
+- No internet? SMS with a toll-free IVR number preserves the session.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Once onboarded, the **FinMind** engine monitors anonymised transaction signals to detect life milestones (new job, marriage, home purchase, new baby) and sends proactive, personalised WhatsApp nudges — converting passive account holders into active product users.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+A built-in **Financial Advisor** answers any banking or investment question in Hindi or English.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+SBI relationship managers see everything through a real-time **admin dashboard** showing onboarding funnels, drop-off analysis, FinMind nudge logs, and pricing ROI.
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Tech Stack
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+| Layer | Technology | Purpose |
+|---|---|---|
+| AI Agent | Google Gemini 1.5 Flash + LangChain | Conversational KYC, nudge generation, financial advisor |
+| Language | Hindi + English (IndicBERT roadmap) | Multilingual support |
+| KYC / OCR | Google Vision API + Pillow | Aadhaar document parsing |
+| Backend | Flask (Python), stateless microservice | REST API, horizontally scalable |
+| Database | Firebase Firestore + Firebase Auth | User profiles, session state, phone OTP |
+| Delivery | Twilio WhatsApp Business API | Onboarding chat + proactive nudge delivery |
+| Frontend | React | Web chat UI + admin dashboard |
+| Security | One-time secure webview link, 256-bit SSL | Aadhaar data never touches WhatsApp servers |
+| Infrastructure | Docker, cloud-agnostic | Deployable on SBI on-premise for data compliance |
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Architecture
 
-## Learn More
+**Phase 1 — Saathi (Customer Acquisition)**
+User message → Language detection → Conversational data collection → Secure Aadhaar KYC link → OCR verification → Eligibility check → Product recommendation → OTP verification → Onboarding complete
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**Phase 2 — FinMind (Lifecycle Engagement)**
+Nightly batch job → Transaction signal classifier → Life-event detection → Gemini-generated nudge → WhatsApp delivery → Conversational advisor follow-up
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Both phases share a unified Firebase user profile, a common Gemini AI core, and a single admin dashboard.
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Security & Compliance
 
-### Analyzing the Bundle Size
+- Aadhaar is never stored on WhatsApp or any third-party server
+- One-time tokenised secure link expires in 10 minutes
+- Data flows directly to SBI's document management system via encrypted HTTPS
+- Compliant with RBI data residency norms
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
+## Business Model
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- **₹30 per successful digital onboarding, ₹0 for drop-offs** — vs ₹800–1200 branch cost (320x ROI at 1M onboardings/year)
+- **FinMind conversion revenue** — life-event nudges convert 3–5x better than generic push notifications
+- **White-label SaaS** — licensable to PNB, Bank of Baroda, Canara Bank at ₹2–5 Cr/year + ₹15/onboarding
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Project Structure
+sbi-saathi/
+├── backend/
+│   ├── agents/          # Gemini-powered agents (KYC, financial advisor, life-event detection)
+│   ├── routes/           # Flask API routes (chat, dashboard, secure KYC)
+│   ├── utils/
+│   ├── app.py
+│   └── config.py
+├── frontend/              # React chat UI + admin dashboard
+└── README.md
 
-### Deployment
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Setup Instructions
 
-### `npm run build` fails to minify
+### Backend
+```bash
+cd backend
+pip install -r requirements.txt
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Create a `.env` file in `backend/` with your own credentials:
+GEMINI_API_KEY=your_key_here
+FIREBASE_CONFIG=your_config_here
+TWILIO_ACCOUNT_SID=your_sid_here
+TWILIO_AUTH_TOKEN=your_token_here
+GOOGLE_VISION_API_KEY=your_key_here
+
+Run the backend:
+```bash
+python app.py
+```
+
+### Frontend
+```bash
+cd frontend
+npm install
+npm start
+```
+
+---
+
+## Team
+
+**Navya Bathla** — B.Tech CSE + AI (Final Year), Indira Gandhi Delhi Technical University for Women (IGDTUW)
+Individual Participant
+
+---
+
+## Roadmap
+
+- [x] WhatsApp/web onboarding flow
+- [x] Hindi conversational agent
+- [x] AI-assisted KYC + OCR
+- [x] Admin dashboard with funnel view
+- [ ] Bank Mitra handoff integration
+- [ ] IndicBERT multilingual expansion
+- [ ] FinMind life-event classifier live
+- [ ] SBI sandbox integration + security audit
